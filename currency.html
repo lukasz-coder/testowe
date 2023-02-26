@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>currency</title>
+     <script>
+    var link = document.getElementById("download-link");
+    var filePath = link.getAttribute("href");
+    var downloaded = false;
+
+    link.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      if (!downloaded) {
+        // pobierz plik
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', filePath, true);
+        xhr.responseType = 'blob';
+
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            // tworzenie linku do pobrania pliku
+            var downloadUrl = URL.createObjectURL(xhr.response);
+            link.href = downloadUrl;
+            link.innerHTML = "Otwórz plik";
+            downloaded = true;
+          }
+        };
+
+        xhr.send();
+      } else {
+        // otwórz pobrany plik
+        window.open(link.href, '_blank');
+      }
+    });
+     
+
+     </script>
+</head>
+<body>
+     <a id="download-link" href="/25t.pdf" download> Pobierz plik </a>
+     
+</body>
+</html>
